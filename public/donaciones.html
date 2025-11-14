@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Donaciones - Patitas Unidas</title>
+  <link rel="stylesheet" href="css/web.css" />
+  <link rel="stylesheet" href="css/hero-carrusel.css">
+  <link rel="shortcut icon" href="https://www.shutterstock.com/shutterstock/photos/2556398355/display_1500/stock-vector-paw-icon-set-vector-illustration-2556398355.jpg" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .section-title {
+      font-size: 36px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .fundacion-card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      display: flex;
+      gap: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      align-items: center;
+      transition: transform 0.2s ease;
+      cursor: default;
+    }
+
+    .fundacion-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .fundacion-card img {
+      width: 120px;
+      height: 120px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .fundacion-info {
+      flex: 1;
+    }
+
+    .fundacion-info h3 {
+      margin: 0 0 8px;
+    }
+
+    .fundacion-info p {
+      margin: 5px 0;
+      color: #555;
+    }
+
+    #formulario-donacion {
+      display: none;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      max-width: 700px;
+      margin: 30px auto 0;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    #info-fundacion {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    #info-fundacion img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    #info-fundacion h3 {
+      font-size: 1.5rem;
+      color: #333;
+      margin: 0;
+    }
+
+    #formulario-donacion label {
+      display: block;
+      margin: 10px 0 6px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    #formulario-donacion input,
+    #formulario-donacion select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 16px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: 'Roboto', sans-serif;
+      transition: border-color 0.3s ease;
+    }
+
+    #formulario-donacion input:focus,
+    #formulario-donacion select:focus {
+      border-color: #4CAF50;
+      outline: none;
+    }
+
+    #formulario-donacion button {
+      width: auto;
+      padding: 12px 20px;
+      margin-right: 10px;
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-weight: 700;
+    }
+
+    #formulario-donacion button:hover {
+      background-color: #3e9145;
+    }
+
+    #top-donaciones {
+      margin-top: 50px;
+      background: #fff8f2;
+      padding: 40px 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.05);
+    }
+
+    .tabla-responsive {
+      overflow-x: auto;
+    }
+
+    .tabla-donaciones {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-size: 16px;
+      background-color: #fff;
+    }
+
+    .tabla-donaciones thead {
+      background-color: #ffccbc;
+    }
+
+    .tabla-donaciones th,
+    .tabla-donaciones td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .tabla-donaciones tbody tr:hover {
+      background-color: #fbe9e7;
+    }
+
+    .tabla-donaciones th {
+      color: #bf360c;
+      font-weight: bold;
+    }
+
+    @media screen and (max-width: 768px) {
+      .fundacion-card {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .fundacion-card img {
+        width: 100%;
+        height: auto;
+      }
+
+      #info-fundacion {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <h2 style="font-size: 60px;">❤️ Dona a una Fundación Aliada 🐾</h2>
+      <p style="font-size: 25px;">Tu apoyo cambia vidas. Elige una fundación para ayudar.</p>
+    </div>
+       <nav>
+    <ul class="menu">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="Somos.html">¿Quiénes somos?</a></li>
+      <li><a href="/adopcion" class="active">Adopción</a></li>
+      
+      <li><a href="donaciones.html">Donaciones</a></li>
+      <li><a href="/voluntariado">Voluntariado</a></li>
+    </ul>
+  </nav>
+  </header>
+  <main>
+    <section id="top-donaciones" class="section">
+      <h2 class="section-title">🏆 Top Donadores del Mes 🔥</h2>
+      <div class="tabla-responsive">
+          <table class="tabla-donaciones">
+              <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Nombre</th>
+                      <th>Monto Donado</th>
+                      <th>Mensaje</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>1</td>
+                      <td>Armando Casas</td>
+                      <td>$300.000</td>
+                      <td>“Por todos los peluditos sin hogar 🐾”</td>
+                  </tr>
+                  <tr>
+                      <td>2</td>
+                      <td>Debora Niño</td>
+                      <td>$250.000</td>
+                      <td>“Gracias por su hermosa labor.”</td>
+                  </tr>
+                  <tr>
+                      <td>3</td>
+                      <td>Susana Oria</td>
+                      <td>$200.000</td>
+                      <td>“Topito me cambió la vida 🐱💖”</td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+    </section>
+
+    <h2 class="section-title">Fundaciones disponibles para donar</h2>
+
+    <!-- Fundación 1 -->
+    <div class="fundacion-card">
+      <img src="../Fotos/hm.jpg" alt="Fundación Huellitas de Amor" />
+      <div class="fundacion-info">
+        <h3>Huellitas de Amor</h3>
+        <p><strong>Ubicación:</strong> Neiva, Huila</p>
+        <p>Rescata animales de la calle y les brinda hogar temporal.</p>
+        <button class="unirme" onclick="mostrarFormulario('Huellitas de Amor', '../Fotos/hm.jpg')">Donar a esta fundación</button>
+      </div>
+    </div>
+
+    <!-- Fundación 2 -->
+    <div class="fundacion-card">
+      <img src="../Fotos/GP.jpg" alt="Fundación Garras y Patas" />
+      <div class="fundacion-info">
+        <h3>Garras y Patas</h3>
+        <p><strong>Ubicación:</strong> Bogotá, Colombia</p>
+        <p>Especializada en rescate de perros ancianos y discapacitados.</p>
+        <button class="unirme" onclick="mostrarFormulario('Garras y Patas', '../Fotos/GP.jpg')">Donar a esta fundación</button>
+      </div>
+    </div>
+
+    <!-- Fundación 3 -->
+    <div class="fundacion-card">
+      <img src="../Fotos/PF.jpg" alt="Fundación Peluditos Felices" />
+      <div class="fundacion-info">
+        <h3>Peluditos Felices</h3>
+        <p><strong>Ubicación:</strong> Medellín, Antioquia</p>
+        <p>Cuida, esteriliza y promueve adopciones responsables.</p>
+        <button class="unirme" onclick="mostrarFormulario('Peluditos Felices', '../Fotos/PF.jpg')">Donar a esta fundación</button>
+      </div>
+    </div>
+
+    <section id="formulario-donacion">
+      <h2 class="section-title">Formulario de Donación</h2>
+
+      <!-- Fundación seleccionada -->
+      <div id="info-fundacion">
+        <img id="fundacion-logo" src="" alt="Logo de la fundación" />
+        <h3 id="fundacion-nombre"></h3>
+      </div>
+
+      <form id="donationForm">
+        <input type="hidden" id="fundacionNombre" name="fundacionNombre" />
+
+        <label for="donante-nombre">Nombre completo:</label>
+        <input type="text" id="donante-nombre" name="donanteNombre" required />
+
+        <label for="donante-email">Correo electrónico:</label>
+        <input type="email" id="donante-email" name="donanteEmail" required />
+
+        <label for="monto">Monto a donar (USD):</label>
+        <input type="number" id="monto" name="monto" min="1" step="any" required />
+
+        <label for="metodo-pago">Método de pago:</label>
+        <select id="metodo-pago" name="metodoPago" required>
+          <option value="">-- Selecciona --</option>
+          <option value="tarjeta">Tarjeta de crédito/débito</option>
+          <option value="paypal">PayPal</option>
+          <option value="transferencia">Transferencia bancaria</option>
+        </select>
+
+        <button type="submit">Donar</button>
+        <button type="button" onclick="ocultarFormulario()">Cancelar</button>
+      </form>
+    </section>
+  </main>
+
+ <footer>
+        <p>&copy; 2025 Patitas Unidas. Todos los derechos reservados.</p>
+    
+    </footer>
+
+  <script>
+    function mostrarFormulario(nombreFundacion, logoFundacion) {
+      document.getElementById('fundacionNombre').value = nombreFundacion;
+      document.getElementById('fundacion-nombre').textContent = nombreFundacion;
+      document.getElementById('fundacion-logo').src = logoFundacion;
+      console.log(logoFundacion)
+
+      document.getElementById('formulario-donacion').style.display = 'block';
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function ocultarFormulario() {
+      document.getElementById('formulario-donacion').style.display = 'none';
+    }
+
+    document.getElementById('donationForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const fundacion = document.getElementById('fundacionNombre').value;
+      const nombre = document.getElementById('donante-nombre').value;
+      const monto = document.getElementById('monto').value;
+      alert(`¡Gracias, ${nombre}, por donar $${monto} a la fundación "${fundacion}"!`);
+      this.reset();
+      ocultarFormulario();
+    });
+  </script>
+  <script src="js/login.js"></script>
+  <script src="js/carousel.js"></script>
+  <script src="js/hero-carrusel.js"></script>
+</body>
+</html>
