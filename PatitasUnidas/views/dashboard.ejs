@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Patitas Unidas</title>
+    <link rel="shortcut icon" href="https://www.shutterstock.com/shutterstock/photos/2556398355/display_1500/stock-vector-paw-icon-set-vector-illustration-2556398355.jpg">
+    <link rel="stylesheet" href="/css/web.css">
+    <link rel="stylesheet" href="css/hero-carrusel.css">
+    <style>
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+        }
+        .card img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        button { margin: 5px 0; }
+    </style>
+</head>
+<body>
+<header class="hero">
+    <div class="hero-content">
+        <h1 class="page-title">🐾 Dashboard Administrador 🐾</h1>
+        <p>Bienvenido, Juan</p>
+    </div>
+</header>
+
+<nav>
+    <ul class="menu">
+        <li><a href="/dashboard" class="active">Dashboard</a></li>
+        <li><a href="/">Volver al sitio</a></li>
+        <li><a href="#" id="logout">Cerrar sesión</a></li>
+    </ul>
+</nav>
+
+<main style="margin-top:120px; padding: 20px;">
+    <section class="section">
+        <h2 class="section-title">🐶 Animales Registrados</h2>
+        <button id="btnNuevoAnimal">+ Nuevo animal</button>
+
+        <div id="formNuevoAnimal" style="display:none; margin-top:20px;">
+            <h3>Registrar nuevo animal 🐾</h3>
+            <form id="animalForm">
+                <label>Nombre del animal</label>
+                <input type="text" name="nombre" required>
+
+                <label>Especie</label>
+                <input type="text" name="especie" required>
+
+                <label>Raza</label>
+                <input type="text" name="raza">
+
+                <label>Edad</label>
+                <input type="number" name="edad">
+
+                <label>Descripción</label>
+                <textarea name="descripcion"></textarea>
+
+                <label>URL de la foto</label>
+                <input type="text" name="foto_url">
+
+                <label>Estado</label>
+                <select name="estado">
+                    <option value="disponible">Disponible</option>
+                    <option value="adoptado">Adoptado</option>
+                    <option value="en_cuido">En cuidado</option>
+                </select>
+
+                <label>ID del adoptante (opcional)</label>
+                <input type="number" name="adoptante_id">
+
+                <button type="submit">Guardar animal</button>
+                <button type="button" id="cerrarFormAnimal">Cancelar</button>
+            </form>
+        </div>
+
+        <div id="formEditarAnimal" style="display:none; margin-top:20px;">
+            <h3>Editar animal 🐾</h3>
+            <form id="animalEditForm">
+                <input type="hidden" name="id">
+                <label>Nombre</label>
+                <input type="text" name="nombre" required>
+                <label>Especie</label>
+                <input type="text" name="especie" required>
+                <label>Raza</label>
+                <input type="text" name="raza">
+                <label>Edad</label>
+                <input type="number" name="edad">
+                <label>Descripción</label>
+                <textarea name="descripcion"></textarea>
+                <label>URL de la foto</label>
+                <input type="text" name="foto_url">
+                <label>Estado</label>
+                <select name="estado">
+                    <option value="disponible">Disponible</option>
+                    <option value="adoptado">Adoptado</option>
+                    <option value="en_cuido">En cuidado</option>
+                </select>
+                <label>ID adoptante (opcional)</label>
+                <input type="number" name="adoptante_id">
+                <button type="submit">Guardar cambios</button>
+                <button type="button" id="cancelarEditarAnimal">Cancelar</button>
+            </form>
+        </div>
+
+        <div id="animales-container" class="card-grid">
+        </div>
+    </section>
+    <section class="section">
+        <h2 class="section-title">📝 Publicaciones</h2>
+        <button id="btnNuevaPublicacion">+ Nueva publicación</button>
+        <div id="formNuevaPublicacion" style="display:none; margin-top:20px;">
+            <h3>Crear nueva publicación 📰</h3>
+            <form id="publicacionForm">
+                <label>Tipo de publicación</label>
+                <select id="tipoPublicacion" name="tipo" required>
+                    <option value="">-- Seleccione tipo de publicación --</option>
+                    <option value="general">General</option>
+                    <option value="adopcion">Adopción</option>
+                    <option value="evento">Evento</option>
+                </select>
+
+                <div id="generalFields">
+                    <label>Título</label>
+                    <input type="text" name="titulo">
+
+                    <label>Contenido</label>
+                    <textarea name="contenido"></textarea>
+
+                    <label>URL de la imagen</label>
+                    <input type="text" name="imagen_url">
+                </div>
+
+                <div id="adopcionFields" style="display:none;">
+                    <label>ID del animal (debe estar disponible)</label>
+                    <input type="number" name="id_animal" placeholder="ID del animal" required>
+                    <label>Link del formulario de adopción</label>
+                    <input type="text" name="link_adopcion" placeholder="URL del formulario" required>
+                </div>
+
+                <div id="eventoFields" style="display:none;">
+                    <label>Fecha fin</label>
+                    <input type="date" name="fecha_fin">
+                    <label>Link del formulario del evento</label>
+                    <input type="text" name="link_evento" placeholder="URL del formulario">
+                </div>
+
+                <button type="submit">Guardar publicación</button>
+                <button type="button" id="cerrarFormPublicacion">Cancelar</button>
+            </form>
+        </div>
+
+
+
+
+        <div id="formEditarPublicacion" style="display:none; margin-top:20px;">
+            <h3>Editar publicación 📰</h3>
+            <form id="publicacionEditForm">
+                <input type="hidden" name="id_publicacion">
+                <input type="hidden" name="tipo">
+
+                <label>Título</label>
+                <input type="text" name="titulo" required>
+                <label>Contenido</label>
+                <textarea name="contenido" required></textarea>
+                <label>URL de la imagen</label>
+                <input type="text" name="imagen_url">
+
+                <div id="editEventoFields" style="display:none;">
+                    <label>Fecha fin</label>
+                    <input type="date" name="fecha_fin">
+                    <label>Link formulario evento</label>
+                    <input type="text" name="link_formulario">
+                </div>
+
+                <button type="submit">Guardar cambios</button>
+                <button type="button" id="cancelarEditarPublicacion">Cancelar</button>
+            </form>
+        </div>
+
+
+
+
+        <div id="publicaciones-container" class="card-grid">
+           
+        </div>
+    </section>
+
+</main>
+
+<%- include('partials/footer') %>
+
+<script>
+
+    document.getElementById('logout').addEventListener('click', () => {
+        window.location.href = '/login';
+    });
+
+    // ==================== Animales ====================
+    const btnNuevoAnimal = document.getElementById('btnNuevoAnimal');
+    const formNuevoAnimal = document.getElementById('formNuevoAnimal');
+    const cerrarFormAnimal = document.getElementById('cerrarFormAnimal');
+    const publicacionesContainer = document.getElementById('publicaciones-container');
+
+    btnNuevoAnimal.addEventListener('click', () => formNuevoAnimal.style.display = 'block');
+    cerrarFormAnimal.addEventListener('click', () => formNuevoAnimal.style.display = 'none');
+
+    async function cargarAnimales() {
+        const res = await fetch('/dashboard/animales');
+        const animales = await res.json();
+        const container = document.getElementById('animales-container');
+        container.innerHTML = '';
+        animales.forEach(a => {
+            container.innerHTML += `
+                <div class="card">
+                    <img src="${a.foto_url}" alt="${a.nombre}">
+                    <div class="card-body">
+                        <h3 class="card-title">${a.nombre}</h3>
+                        <p>ID: ${a.id}</p>
+                        <p>Edad: ${a.edad} | Especie: ${a.especie} | Estado: ${a.estado}</p>
+                        <p>${a.descripcion || ''}</p>
+                        <p>${a.adoptante_id ? 'Adoptante ID: ' + a.adoptante_id : ''}</p>
+                        <button class="btnEditarAnimal" data-id="${a.id}">Editar</button>
+                        <button class="btnEliminarAnimal" data-id="${a.id}">Eliminar</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    publicacionesContainer.addEventListener('click', async (e) => {
+        if(e.target.classList.contains('btnEliminar')) {
+            const id = e.target.dataset.id;
+            if(confirm('¿Seguro que quieres eliminar esta publicación?')) {
+                const res = await fetch(`/dashboard/publicaciones/${id}`, { method: 'DELETE' });
+                if(res.ok) cargarPublicaciones();
+                else alert('Error al eliminar publicación');
+            }
+        }
+    });
+
+    document.addEventListener('click', async (e) => {
+        // --- Editar animal ---
+        if (e.target.classList.contains('btnEditarAnimal')) {
+            const id = e.target.dataset.id;
+            const res = await fetch(`/dashboard/animales`);
+            const animales = await res.json();
+            const animal = animales.find(a => a.id == id);
+
+            if (animal) {
+                const form = document.getElementById('animalEditForm');
+                Object.keys(animal).forEach(key => {
+                    if (form.elements[key]) form.elements[key].value = animal[key] || '';
+                });
+                document.getElementById('formEditarAnimal').style.display = 'block';
+            }
+        }
+    });
+
+    document.addEventListener('click', async (e) => {
+        // --- Eliminar animal ---
+        if(e.target.classList.contains('btnEliminarAnimal')) {
+            const id = e.target.dataset.id;
+            if(confirm('¿Seguro que quieres eliminar este animal?')) {
+                const res = await fetch(`/dashboard/animales/${id}`, { method: 'DELETE' });
+                if(res.ok) cargarAnimales();
+                else alert('Error al eliminar animal');
+            }
+        }
+    });
+
+
+    document.addEventListener('click', async (e) => {
+        // --- Editar publicación ---
+        if (e.target.classList.contains('btnEditar')) {
+            const id = e.target.dataset.id;
+            const res = await fetch('/dashboard/publicaciones');
+            const publicaciones = await res.json();
+            const p = publicaciones.find(pub => pub.id_publicacion == id);
+
+            if (p) {
+                const form = document.getElementById('publicacionEditForm');
+                form.elements['id_publicacion'].value = p.id_publicacion;
+                form.elements['tipo'].value = p.tipo;
+                form.elements['titulo'].value = p.titulo;
+                form.elements['contenido'].value = p.contenido;
+                form.elements['imagen_url'].value = p.imagen_url || '';
+
+                document.getElementById('editAdopcionFields').style.display = (p.tipo === 'adopcion') ? 'block' : 'none';
+                document.getElementById('editEventoFields').style.display = (p.tipo === 'evento') ? 'block' : 'none';
+
+                if (p.tipo === 'adopcion') {
+                    form.elements['id_animal'].value = p.id_animal || '';
+                    form.elements['link_formulario'].value = p.link_adopcion || '';
+                } else if (p.tipo === 'evento') {
+                    form.elements['fecha_fin'].value = p.fecha_fin || '';
+                    form.elements['link_formulario'].value = p.link_evento || '';
+                }
+
+                document.getElementById('formEditarPublicacion').style.display = 'block';
+            }
+        }
+    });
+
+    document.getElementById('cancelarEditarPublicacion').addEventListener('click', () => {
+        document.getElementById('formEditarPublicacion').style.display = 'none';
+    });
+
+    document.getElementById('publicacionEditForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target).entries());
+        const id = data.id_publicacion;
+
+        const res = await fetch(`/dashboard/publicaciones/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+            alert('Publicación actualizada ✅');
+            cargarPublicaciones();
+            e.target.reset();
+            document.getElementById('formEditarPublicacion').style.display = 'none';
+        } else {
+            alert('Error al actualizar publicación');
+        }
+    });
+    
+
+
+    document.getElementById('cancelarEditarAnimal').addEventListener('click', () => {
+        document.getElementById('formEditarAnimal').style.display = 'none';
+    });
+
+    document.getElementById('animalEditForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target).entries());
+        const id = data.id;
+        const res = await fetch(`/dashboard/animales/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        if (res.ok) {
+            alert('Animal actualizado con éxito 🐾');
+            cargarAnimales();
+            e.target.reset();
+            document.getElementById('formEditarAnimal').style.display = 'none';
+        } else {
+            alert('Error al actualizar animal');
+        }
+    });
+
+    document.getElementById('animalForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target).entries());
+
+        if(!validarAnimal(data)) return;
+
+        const res = await fetch('/dashboard/animales', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        if(res.ok){
+            cargarAnimales();
+            formNuevoAnimal.style.display = 'none';
+            e.target.reset();
+        } else {
+            alert('Error al registrar animal');
+        }
+    });
+
+
+    // ==================== Publicaciones ====================
+    const btnNuevaPublicacion = document.getElementById('btnNuevaPublicacion');
+    const formNuevaPublicacion = document.getElementById('formNuevaPublicacion');
+    const cerrarFormPublicacion = document.getElementById('cerrarFormPublicacion');
+
+    btnNuevaPublicacion.addEventListener('click', () => formNuevaPublicacion.style.display = 'block');
+    cerrarFormPublicacion.addEventListener('click', () => formNuevaPublicacion.style.display = 'none');
+
+    const tipoSelect = document.getElementById('tipoPublicacion');
+const generalFields = document.getElementById('generalFields');
+const adopcionFields = document.getElementById('adopcionFields');
+const eventoFields = document.getElementById('eventoFields');
+
+tipoSelect.addEventListener('change', () => {
+    const tipo = tipoSelect.value;
+
+    generalFields.style.display = (tipo === 'general' || tipo === 'evento') ? 'block' : 'none';
+    adopcionFields.style.display = (tipo === 'adopcion') ? 'block' : 'none';
+    eventoFields.style.display = (tipo === 'evento') ? 'block' : 'none';
+
+    generalFields.querySelectorAll('[name]').forEach(i => i.required = false);
+    adopcionFields.querySelectorAll('[name]').forEach(i => i.required = false);
+    eventoFields.querySelectorAll('[name]').forEach(i => i.required = false);
+
+    if (tipo === 'adopcion') {
+        adopcionFields.querySelector('[name="id_animal"]').required = true;
+        adopcionFields.querySelector('[name="link_formulario"]').required = true;
+    } else if (tipo === 'general') {
+        generalFields.querySelector('[name="titulo"]').required = true;
+        generalFields.querySelector('[name="contenido"]').required = true;
+    } else if (tipo === 'evento') {
+        generalFields.querySelector('[name="titulo"]').required = true;
+        generalFields.querySelector('[name="contenido"]').required = true;
+        eventoFields.querySelector('[name="fecha_fin"]').required = true;
+        eventoFields.querySelector('[name="link_formulario"]').required = true;
+    }
+});
+
+
+
+    function validarAnimal(data) {
+        if(data.estado === 'adoptado' && (!data.adoptante_id || data.adoptante_id === '')) {
+            console.warn('Este animal está marcado como adoptado pero no tiene adoptante.');
+        }
+        return true;
+    }
+
+    async function cargarPublicaciones() {
+    const res = await fetch('/dashboard/publicaciones');
+    const publicaciones = await res.json();
+    const container = document.getElementById('publicaciones-container');
+    container.innerHTML = '';
+
+    publicaciones.forEach(p => {
+        if(p.tipo === 'adopcion' && p.animal){
+            container.innerHTML += `
+                <div class="card">
+                    <div class="card-body">
+                        <img src="${p.animal.foto_url}" style="max-width:100%;">
+                        <p>Nombre: ${p.animal.nombre}</p>
+                        <p>Especie: ${p.animal.especie} | Raza: ${p.animal.raza || '-'}</p>
+                        <p>Edad: ${p.animal.edad}</p>
+                        <p>Formulario: <a href="${p.link_adopcion}" target="_blank">Abrir</a></p>
+                        <button class="btnEliminar" data-id="${p.id_publicacion}">Eliminar</button>
+                    </div>
+                </div>
+            `;
+        } else if(p.tipo === 'evento') {
+            container.innerHTML += `
+                <div class="card">
+                    <div class="card-body">
+                        <h3>${p.titulo}</h3>
+                        <p>${p.contenido}</p>
+                        ${p.imagen_url ? `<img src="${p.imagen_url}" style="max-width:100%;">` : ''}
+                        <p>Formulario: <a href="${p.link_evento}" target="_blank">Abrir</a></p>
+                        <button class="btnEliminar" data-id="${p.id_publicacion}">Eliminar</button>
+                    </div>
+                </div>
+            `;
+        } else {
+            container.innerHTML += `
+                <div class="card">
+                    <div class="card-body">
+                        <h3>${p.titulo}</h3>
+                        <p>${p.contenido}</p>
+                        ${p.imagen_url ? `<img src="${p.imagen_url}" style="max-width:100%;">` : ''}
+                        <button class="btnEliminar" data-id="${p.id_publicacion}">Eliminar</button>
+                    </div>
+                </div>
+            `;
+        }
+    });
+}
+
+document.getElementById('publicacionForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const data = Object.fromEntries(new FormData(e.target).entries());
+
+    if(data.tipo === 'adopcion'){
+        if(!data.id_animal || !data.link_adopcion){
+            alert('Debe proporcionar un ID de animal y un link de formulario.');
+            return;
+        }
+
+        const animalRes = await fetch(`/dashboard/animales/${data.id_animal}`);
+        if(!animalRes.ok){
+            alert('Animal no encontrado.');
+            return;
+        }
+        const animal = await animalRes.json();
+        if(animal.estado !== 'disponible'){
+            alert('El animal debe estar disponible.');
+            return;
+        }
+
+        data.animal = {
+            id: animal.id,
+            nombre: animal.nombre,
+            especie: animal.especie,
+            raza: animal.raza,
+            edad: animal.edad,
+            descripcion: animal.descripcion,
+            foto_url: animal.foto_url
+        };
+
+        data.link_formulario = data.link_adopcion;
+    }
+
+    if(data.tipo === 'evento'){
+        data.link_formulario = data.link_evento;
+    }
+
+    const res = await fetch('/dashboard/publicaciones', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    });
+
+    if(res.ok){
+        cargarPublicaciones();
+        formNuevaPublicacion.style.display = 'none';
+        e.target.reset();
+        tipoSelect.value = '';
+        adopcionFields.style.display = 'none';
+        eventoFields.style.display = 'none';
+    } else {
+        alert('Error al guardar publicación');
+    }
+});
+
+
+    cargarAnimales();
+    cargarPublicaciones();
+</script>
+<script src="js/hero-carrusel.js"></script>
+</body>
+</html>
