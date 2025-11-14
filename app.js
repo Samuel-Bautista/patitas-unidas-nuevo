@@ -20,6 +20,10 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+app.get("/Somos.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "somos.html"));
+});
+
 app.use("/login", loginRouter);
 app.use('/dashboard', dashboardRoutes);
 app.use('/adopcion', adopcionRoutes);
@@ -28,4 +32,5 @@ app.use('/voluntariado', voluntariadoRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
+
 
